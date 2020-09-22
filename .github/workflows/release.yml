@@ -1,0 +1,20 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Version to use for the release'
+        required: true
+      developmentVersion:
+        description: 'Version to use for the new development cycle'
+        required: true
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Release version: ${{ github.event.inputs.releaseVersion }}"
+          echo "Development version: ${{ github.event.inputs.developmentVersion }}"
