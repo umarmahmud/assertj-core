@@ -1038,7 +1038,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given key.
    */
   public SELF containsKey(K key) {
-    return containsKeys(key);
+      maps.assertContainsKey(info, actual, key);
+      return myself;
   }
 
   /**
