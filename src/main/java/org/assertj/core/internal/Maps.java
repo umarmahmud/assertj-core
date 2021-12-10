@@ -249,16 +249,17 @@ public class Maps {
     throw failures.failure(info, shouldContainAnyOf(actual, entries));
   }
 
-  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Condition<? super V> valueCondition) {
-    assertContainsKey(info, actual, key);
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Condition<? super K> keyCondition,
+                                              Condition<? super V> valueCondition) {
+    assertContainsKey(info, actual, key, keyCondition);
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
     if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldBe(actual, value, valueCondition));
   }
 
-  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
+  public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key, Condition<? super K> keyCondition,
                                               Consumer<? super V> valueRequirements) {
-    assertContainsKey(info, actual, key);
+    assertContainsKey(info, actual, key, keyCondition);
     requireNonNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
     V value = actual.get(key);
     valueRequirements.accept(value);
@@ -336,8 +337,8 @@ public class Maps {
     throw failures.failure(info, shouldContainKeys(actual, notFound));
   }
 
-  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
-    assertContainsKeys(info, actual, array(key));
+  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key, Condition<? super K> keyCondition) {
+    assertNotNull(info, actual);
   }
 
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {

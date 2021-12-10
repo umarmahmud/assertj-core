@@ -750,8 +750,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
    * @since 2.6.0 / 3.6.0
    */
-  public SELF hasEntrySatisfying(K key, Condition<? super V> valueCondition) {
-    maps.assertHasEntrySatisfying(info, actual, key, valueCondition);
+  public SELF hasEntrySatisfying(K key,  Condition<? super K> keyCondition, Condition<? super V> valueCondition) {
+    maps.assertHasEntrySatisfying(info, actual, key, keyCondition, valueCondition);
     return myself;
   }
 
@@ -785,8 +785,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
    * @since 3.6.0
    */
-  public SELF hasEntrySatisfying(K key, Consumer<? super V> valueRequirements) {
-    maps.assertHasEntrySatisfying(info, actual, key, valueRequirements);
+  public SELF hasEntrySatisfying(K key, Condition<? super K> keyCondition, Consumer<? super V> valueRequirements) {
+    maps.assertHasEntrySatisfying(info, actual, key, keyCondition, valueRequirements);
     return myself;
   }
 
@@ -1037,8 +1037,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given key.
    */
-  public SELF containsKey(K key) {
-      maps.assertContainsKey(info, actual, key);
+  public SELF containsKey(K key, Condition<? super K> keyCondition) {
+      maps.assertContainsKey(info, actual, key, keyCondition);
       return myself;
   }
 
