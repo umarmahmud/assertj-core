@@ -1714,7 +1714,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .size()
           .isGreaterThan(1)
           .returnToMap()
-          .containsKey("nope")
+          .containsKey("nope", new Condition<String>())
           .size()
           .as("check size after navigating back")
           .isLessThan(2);

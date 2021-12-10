@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.Condition;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +38,7 @@ class Uris_getParameters_Test extends UrisBaseTest {
     // GIVEN
     Map<String, List<String>> parameters = getParameters("foo");
     // WHEN/THEN
-    assertThat(parameters).containsKey("foo");
+    assertThat(parameters).containsKey("foo", new Condition<Object>());
     assertThat(parameters.get("foo")).hasSize(1)
                                      .containsNull();
   }
@@ -47,13 +48,13 @@ class Uris_getParameters_Test extends UrisBaseTest {
     // GIVEN
     Map<String, List<String>> parameters = getParameters("foo=bar");
     // WHEN/THEN
-    assertThat(parameters).containsKey("foo");
+    assertThat(parameters).containsKey("foo", new Condition<Object>());
     assertThat(parameters.get("foo")).containsExactly("bar");
   }
 
   @Test
   void should_decode_name() {
-    assertThat(getParameters("foo%3Dbar=baz")).containsKey("foo=bar");
+    assertThat(getParameters("foo%3Dbar=baz")).containsKey("foo=bar", new Condition<Object>());
   }
 
   @Test
@@ -66,7 +67,7 @@ class Uris_getParameters_Test extends UrisBaseTest {
     // GIVEN
     Map<String, List<String>> parameters = getParameters("foo&foo=bar");
     // WHEN/THEN
-    assertThat(parameters).containsKey("foo");
+    assertThat(parameters).containsKey("foo", new Condition<Object>());
     assertThat(parameters.get("foo")).containsOnly(null, "bar");
   }
 
@@ -75,7 +76,7 @@ class Uris_getParameters_Test extends UrisBaseTest {
     // GIVEN
     Map<String, List<String>> parameters = getParameters("foo=bar&foo=bar");
     // WHEN/THEN
-    assertThat(parameters).containsKey("foo");
+    assertThat(parameters).containsKey("foo", new Condition<Object>());
     assertThat(parameters.get("foo")).containsExactly("bar", "bar");
   }
 }

@@ -40,11 +40,11 @@ class MapAssert_hasEntrySatisfying_with_key_and_condition_Test extends MapAssert
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.hasEntrySatisfying("key1", condition);
+    return assertions.hasEntrySatisfying("key1", new Condition<Object>());
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), "key1", condition);
+    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), "key1");
   }
 }

@@ -99,6 +99,7 @@ import org.assertj.core.test.Person;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
+import org.checkerframework.checker.units.qual.K;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -2072,7 +2073,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .size()
           .isGreaterThan(1)
           .returnToMap()
-          .containsKey("nope")
+          .containsKey("nope", new Condition<Object>())
           .as("check size after navigating back")
           .size()
           .isLessThan(2);

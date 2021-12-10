@@ -17,10 +17,11 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.assertj.core.api.Condition;
 
 
 /**
- * Tests for <code>{@link MapAssert#containsKey(Object)}</code>.
+ * Tests for <code>{@link MapAssert#containsKey(Object, Condition)}</code>.
  *
  * @author Nicolas François
  */
@@ -28,7 +29,7 @@ class MapAssert_containsKey_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.containsKey("key1");
+    return assertions.containsKey("key1", new Condition<Object>());
   }
 
   @Override
