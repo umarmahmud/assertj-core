@@ -339,6 +339,10 @@ public class Maps {
 
   public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key, Condition<? super K> keyCondition) {
     assertNotNull(info, actual);
+    if (keyCondition.matches(key)) return;
+    if (actual.containsKey(key)) return;
+    if (!actual.containsKey(key)) throw failures.failure(info, shouldContainKey(actual, keyCondition));
+    shouldContainKey(actual, keyCondition);
   }
 
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
