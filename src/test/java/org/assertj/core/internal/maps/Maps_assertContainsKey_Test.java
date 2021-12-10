@@ -24,6 +24,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Condition;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,18 +44,18 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_key() {
-    maps.assertContainsKey(someInfo(), actual, "name");
+    maps.assertContainsKey(someInfo(), actual, "name", new Condition<Object>());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsKey(someInfo(), null, "name"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsKey(someInfo(), null, "name", new Condition<Object>()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_success_if_key_is_null() {
-    maps.assertContainsKey(someInfo(), actual, null);
+    maps.assertContainsKey(someInfo(), actual, null, new Condition<Object>());
   }
 
   @Test
@@ -62,7 +63,7 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = "power";
 
-    Throwable error = catchThrowable(() -> maps.assertContainsKey(info, actual, key));
+    Throwable error = catchThrowable(() -> maps.assertContainsKey(info, actual, key, new Condition<Object>()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));

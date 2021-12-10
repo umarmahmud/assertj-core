@@ -36,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Maps#assertHasEntrySatisfying(AssertionInfo, Map, Object, Condition)}</code>.
+ * Tests for <code>{@link Maps#assertHasEntrySatisfying(AssertionInfo, Map, Object, Condition, Condition)}</code>.
  *
  * @author Valeriy Vyrva
  */
@@ -48,6 +48,7 @@ class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
   private Condition<String> isNotDigits;
   private Condition<Object> isNull;
   private Condition<Object> nonNull;
+  private Condition<Object> keyCondition;
 
   @Override
   @BeforeEach
@@ -72,7 +73,7 @@ class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, 8, isDigits))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, 8, isNull, isDigits))
                                                    .withMessage(actualIsNull());
   }
 
@@ -81,7 +82,7 @@ class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = "id";
 
-    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, isDigits));
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, isDigits, isDigits));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
@@ -92,7 +93,7 @@ class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = "name";
 
-    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, isDigits));
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, new Condition<Object>(), isDigits));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), isDigits));
@@ -103,7 +104,7 @@ class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = null;
 
-    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, nonNull));
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, new Condition<Object>(), nonNull));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsShouldBe(actual, actual.get(key), nonNull));
@@ -112,13 +113,13 @@ class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
   @Test
   void should_pass_if_actual_contains_null_key_with_value_match_condition() {
     AssertionInfo info = someInfo();
-    maps.assertHasEntrySatisfying(info, actual, null, isNull);
+    maps.assertHasEntrySatisfying(info, actual, null, new Condition<Object>(), isNull);
   }
 
   @Test
   void should_pass_if_actual_contains_key_with_value_match_condition() {
     AssertionInfo info = someInfo();
     String key = "name";
-    maps.assertHasEntrySatisfying(info, actual, key, isNotDigits);
+    maps.assertHasEntrySatisfying(info, actual, key, new Condition<Object>(), isNotDigits);
   }
 }

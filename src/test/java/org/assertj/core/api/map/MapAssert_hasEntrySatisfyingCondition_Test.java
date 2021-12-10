@@ -32,17 +32,17 @@ class MapAssert_hasEntrySatisfyingCondition_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.hasEntrySatisfying("key1", valueCondition);
+    return assertions.hasEntrySatisfying("key1", new Condition<Object>(), valueCondition);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), "key1", valueCondition);
+    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), "key1", new Condition<Object>(), valueCondition);
   }
 
   @Test
   void invoke_api_like_user() {
     Map<String, String> map = map("key1", "value1", "key2", "value2");
-    assertThat(map).hasEntrySatisfying("key1", new Condition<>(v -> v.contains("val"), "test condition"));
+    assertThat(map).hasEntrySatisfying("key1", new Condition<Object>(), new Condition<>(v -> v.contains("val"), "test condition"));
   }
 }

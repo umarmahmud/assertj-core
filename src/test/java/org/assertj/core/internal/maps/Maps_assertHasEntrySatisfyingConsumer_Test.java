@@ -74,7 +74,7 @@ class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = "id";
 
-    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, new Condition<Object>(), s -> assertThat(s).containsPattern(IS_DIGITS)));
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, new Condition<String>(), s -> assertThat(s).containsPattern(IS_DIGITS)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));

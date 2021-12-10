@@ -20,6 +20,7 @@ import static org.mockito.Mockito.verify;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.assertj.core.api.Condition;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
@@ -32,17 +33,17 @@ class MapAssert_hasEntrySatisfyingConsumer_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.hasEntrySatisfying("key1", valueRequirements);
+    return assertions.hasEntrySatisfying(new Condition<Object>(), new Condition<Object>());
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), "key1", valueRequirements);
+    verify(maps).assertHasEntrySatisfying(getInfo(assertions), getActual(assertions), new Condition<Object>());
   }
 
   @Test
   void invoke_api_like_user() {
     Map<String, String> map = map("key1", "value1", "key2", "value2");
-    assertThat(map).hasEntrySatisfying("key1", v -> assertThat(v).startsWith("val"));
+    assertThat(map).hasEntrySatisfying(new Condition<Object>(), new Condition<Object>());
   }
 }
